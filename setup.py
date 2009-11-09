@@ -8,5 +8,7 @@ setup(
 		author = "Stanislav Yudin"
 		author_email = "decvar@gmail.com",
 		classifiers = ["Development Status :: Beta", "Framework :: ProtocolBuffers"],
+		install_requires=[
+			"protobuf>=2.2.0"],
 		include_package_data = True,
 	)
