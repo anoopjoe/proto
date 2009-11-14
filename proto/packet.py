@@ -7,6 +7,8 @@ Created on  Oct 24, 2009
 '''
 import simplejson
 from error import ProtoError
+import logging
+import pickle
 
 def encode_request(service_name, method_name, request_obj, response_class):
 	request = {}
@@ -28,7 +30,9 @@ def encode_answer(service_name, method_name, response, response_class):
 	packet['response'] = response.SerializeToString()
 	packet['response_class'] = response_class.__name__
 	answer['answer']= packet
-	a = simplejson.dumps(answer)
+	#a = simplejson.dumps(answer, ensure_ascii=False)
+	#a = simplejson.dumps(answer)
+	a = pickle.dumps(answer)
 	return a
 
 def decode_request(data, module):
@@ -48,7 +52,9 @@ def decode_request(data, module):
 	return service_name, method_name, request_inst, response_class
 
 def decode_answer(data, module):
-	answer = simplejson.loads(data)
+	#answer = simplejson.loads(data, encoding='latin-1')
+	#answer = simplejson.loads(data)
+	answer = pickle.loads(data)
 	if not isinstance(answer, dict) or not is_answer(data):
 		raise ProtoError('Invalid answer for decoding')
 	
@@ -68,7 +74,9 @@ def decode_answer(data, module):
 	return service_name, method_name, response_inst, response_class
 
 def is_answer(data):
-	answer = simplejson.loads(data)
+	#answer = simplejson.loads(data, encoding='latin-1')
+	#answer = simplejson.loads(data)
+	answer = pickle.loads(data)
 	if 'error' or 'answer' in answer:
 		return True
 	else:
