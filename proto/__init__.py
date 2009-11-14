@@ -127,7 +127,7 @@ class ProtoServer(object):
 					log.info('Disconnected (%s) %s' % (type(pd), str(pd)) )
 					continue #accepting
 			finally:
-				log.info('Closing clinet connection...')
+				log.info('Closing client connection...')
 				connection.close()
 
 	def callback(self, object):
